@@ -12,6 +12,10 @@
   <script>
     const FPS = 30; // Frames per second
     const FRICTION = 0.7; // Friction coefficient of space (0 = no friction, 1 = lots of friction)
+    const ROIDS_NUM = 3; // Starting number of asteroids
+    const ROIDS_SIZE = 100; // Starting number of asteroids in pixels
+    const ROIDS_SPD = 50; // Max starting speed of asteroids in pixels per second
+    const ROIDS_VERT = 10; // Average number of vertices on each asteroid
     const SHIP_SIZE = 30; // Ship height in pixels
     const SHIP_THRUST = 5; // Acceleration of the ship in px per second per second
     const TURN_SPEED = 360; // turn speed in degrees per second
@@ -45,6 +49,16 @@
     //Set up the game loop
     setInterval(update, 1000 / FPS);
 
+    function createAsteroidBelt() {
+      roids = [];
+      var x, y;
+      for (var i = 0; i < ROIDS_NUM; i++) {
+        x = Math.floor(Math.random() * canvas.width);
+        y = Math.floor(Math.random() * canvas.height);
+        roids.push(newAsteroid(x, y));
+      }
+    }
+
     function keyDown(/** @type {keyboardEvent} */ ev) {
       switch(ev.keyCode) {
         case 37: // left arrow (rotates ship left)
@@ -71,6 +85,19 @@
           ship.rot = 0;
           break;
       }
+    }
+
+    function newAsteroid(x, y) {
+      var roid = {
+        x: x,
+        y: y,
+        xv: Math.random() * ROIDS_SPD / FPS * (Math.random() < 0.5 ? 1 : -1),
+        xy: Math.random() * ROIDS_SPD / FPS * (Math.random() < 0.5 ? 1 : -1),
+        r: ROIDS_SIZE / 2,
+        a: Math.random() * Math.PI * 2 // in radians
+        vert: Math.floor(Math.random() * (ROIDS_VERT + 1) + ROIDS_VERT / 2)
+      };
+      return roid;
     }
 
     function update() {
@@ -127,6 +154,21 @@
       );
       ctx.closePath();
       ctx.stroke();
+
+      // Draw the asteroids
+      ctx.strokeStyle = "slategrey";
+      ctx.lineWidth = SHIP_SIZE / 20;
+      for (var i = 0; i < roids.length; i++) {
+
+          // Draw a path
+
+          // Draw the polygon
+
+          // Move the asteroid
+
+          // Handle edge of screen
+      }
+
       // Rotate ship
       ship.a += ship.rot;
       // Move the ship

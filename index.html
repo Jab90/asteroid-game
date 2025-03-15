@@ -171,11 +171,18 @@
       ctx.closePath();
       ctx.stroke();
 
+      if (SHOW_BOUNDING) {
+        ctx.strokeStyle = "lime";
+        ctx.beginPath();
+        ctx.arc(ship.x, ship.y, ship.r, 0, Math.PI * 2, false);
+        ctx.stroke();
+      }
+
       // Draw the asteroids
-      ctx.strokeStyle = "slategrey";
-      ctx.lineWidth = SHIP_SIZE / 20;
       var x, y, r, a, vert, offs;
       for (var i = 0; i < roids.length; i++) {
+        ctx.strokeStyle = "slategrey";
+        ctx.lineWidth = SHIP_SIZE / 20;
 
         // get the asteroid properties
         x = roids[i].x;
@@ -203,22 +210,12 @@
           ctx.closePath();
           ctx.stroke();
 
-          // Move the asteroid
-          roids[i].x += roids[i].xv;
-          roids[i].y += roids[i].yv;
-
-          // Handle edge of screen
-          if (roids[i].x < 0 - roids[i].r) {
-              roids[i].x = canv.width + roids[i].r;
-          } else if (roids[i].x > canv.width + roids[i].r) {
-              roids[i].x = 0 - roids[i].r
-          }
-
-          if (roids[i].y < 0 - roids[i].r) {
-              roids[i].y = canv.height + roids[i].r;
-          } else if (roids[i].x > canv.height + roids[i].r) {
-              roids[i].y = 0 - roids[i].r
-          }
+          if (SHOW_BOUNDING) {
+              ctx.strokeStyle = "lime";
+              ctx.beginPath();
+              ctx.arc(x, y, r, 0, Math.PI * 2, false);
+              ctx.stroke();
+            }
       }
 
       // Centre dot
@@ -245,9 +242,25 @@
         ship.y = 0 - ship.r;
       }
 
-      // centre dot
-      ctx.fillStyle = "red";
-      //ctx.fillRect(ship.x - 1, ship.y - 1, 2, 2);
+      // Move the asteroids
+      for(var i = 0; i < roids.length; i++) {
+          roids[i].x += roids[i].xv;
+          roids[i].y += roids[i].yv;
+
+      // Handle edge of screen
+          if (roids[i].x < 0 - roids[i].r) {
+              roids[i].x = canv.width + roids[i].r;
+          } else if (roids[i].x > canv.width + roids[i].r) {
+              roids[i].x = 0 - roids[i].r
+          }
+
+          if (roids[i].y < 0 - roids[i].r) {
+              roids[i].y = canv.height + roids[i].r;
+          } else if (roids[i].x > canv.height + roids[i].r) {
+              roids[i].y = 0 - roids[i].r
+          }
+      }
+
     }
   </script>
 </body>

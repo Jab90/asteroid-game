@@ -20,6 +20,8 @@
     const SHIP_SIZE = 30; // Ship height in pixels
     const SHIP_THRUST = 5; // Acceleration of the ship in px per second per second
     const TURN_SPEED = 360; // turn speed in degrees per second
+    const SHOW_BOUNDING = true; // Show or hide collision bounding
+    const SHOW_CENTRE_DOT = false; // Show or hide ship's centre dot
 
     /** @type {HTMLCanvasElement} */
     var canv = document.getElementById("gameCanvas");
@@ -217,6 +219,12 @@
           } else if (roids[i].x > canv.height + roids[i].r) {
               roids[i].y = 0 - roids[i].r
           }
+      }
+
+      // Centre dot
+      if (SHOW_CENTRE_DOT) { 
+        ctx.fillStyle = "red";
+        ctx.fillRect(ship.x -1, ship.y -1, 2, 3);
       }
 
       // Rotate ship
